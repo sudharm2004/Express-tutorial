@@ -11,6 +11,7 @@ app.get('/',(req,res)=>{
     res.send('Welcom To Middleware Home Page')
 })
 
+//Send request like this:-//http://localhost:3000/json?age=14
 //Single Route Middleware->>applicable only for this route
 app.get('/json',reqFilter,(req,res) => {
     res.send([

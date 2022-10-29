@@ -1,0 +1,44 @@
+ <---- QUERY STRINGS IN URL---->
+ a query string is the part of a URL (Uniform Resource Locater) after the question mark (?).
+ It is meant to send small amounts of information to the server via the url.
+ Eg:-https://stackabuse.com/?page=2&limit=3
+ Your query parameters can be retrieved from the query object on the request object sent to your route. 
+ It is in the form of an object in which you can directly access the query parameters you care about. 
+ In this case Express handles all of the URL parsing for you and exposes the retrieved parameters as this object.
+ 
+ <------Extracting Route Parameters----->
+In any web application another common way to structure your URLs is to place information within the actual URL path, which are simply called route parameters in Express.
+We can use these to structure web pages by information/data, which are especially useful in REST APIs.
+
+Extracting these route parameters is similar to the query parameters. 
+All we do is take the req object and retrieve our params from the params object. 
+
+// Route to return all articles with a given tag
+app.get('/tag/:id', async function(req, res) {
+    
+    // Retrieve the tag from our URL path
+    var id = req.params.id;
+
+    let articles = await Article.findAll({tag: id}).exec();
+
+    res.render('tag', {
+        articles: articles
+    });
+});
+First thing to notice is that we tell Express that our route is /tag/:id, where :id is a placeholder for anything.
+It could be a string or a number. So whatever is passed in that part of the path is set as the id parameter.
+
+If we were to navigate to the URL https://stackabuse.com/tag/node then id would be node, and we'd get a bunch of articles that have the node tag on them. 
+And req.params in this case would be {id: 'node'}, just like the query object.
+
+As you can see, we again just take our parameter directly from an object contained within the request object.
+
+
+<------ Conclusion ------>
+In this article I presented ways to extract both the query string parameters and route path parameters a URL in the Express web framework. 
+Here is a quick recap of how to extract the parameters we talked about:
+
+req.query: directly access the parsed query string parameters
+req.params: directly access the parsed route parameters from the path
+While the actual act of retrieving this data is very simple, understanding where this info comes from and what it is can be confusing for some beginners. 
+Hopefully this article cleared some things up for you. Feel free to let us know in the comments if there is anything that is unclear.
